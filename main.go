@@ -9,8 +9,10 @@ func main() {
 	router := gin.Default()
 
 	router.GET("/", rootHandler)
-	router.GET("/coffee", getCoffeeHandler)
-	router.POST("/coffee", createCoffeeHandler)
+
+	coffee := router.Group("/coffee")
+	coffee.GET("/", getCoffeeHandler)
+	coffee.POST("/", createCoffeeHandler)
 
 	err := router.Run(":8080")
 	if err != nil {
