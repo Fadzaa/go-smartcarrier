@@ -2,17 +2,17 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-gin-api/handler"
+	"go-gin-api/handler/coffee"
 )
 
 func main() {
 	router := gin.Default()
 
-	router.GET("/", handler.RootHandler)
+	router.GET("/", coffee.RootHandler)
 
-	coffee := router.Group("/coffee")
-	coffee.GET("/", handler.GetCoffeeHandler)
-	coffee.POST("/", handler.CreateCoffeeHandler)
+	c := router.Group("/coffee")
+	c.GET("/", coffee.GetCoffeeHandler)
+	c.POST("/", coffee.CreateCoffeeHandler)
 
 	err := router.Run(":8080")
 	if err != nil {

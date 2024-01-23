@@ -1,8 +1,8 @@
-package handler
+package coffee
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-gin-api/model"
+	"go-gin-api/domains/coffee"
 	"net/http"
 )
 
@@ -21,7 +21,7 @@ func GetCoffeeHandler(c *gin.Context) {
 }
 
 func CreateCoffeeHandler(c *gin.Context) {
-	var coffee model.Coffee
+	var coffee coffee.Coffee
 	err := c.ShouldBindJSON(&coffee)
 
 	if err != nil {
