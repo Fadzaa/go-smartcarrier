@@ -8,15 +8,51 @@ import (
 func main() {
 	router := gin.Default()
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello World!",
-		})
-	})
+	router.GET("/", rootHandler)
+	router.GET("/coffee", getCoffeeHandler)
+	router.POST("/coffee", createCoffeeHandler)
 
 	err := router.Run(":8080")
 	if err != nil {
 		panic(err)
 	}
 
+}
+
+func rootHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message":    "Hello There Welcome to Coffee API!",
+		"created_by": "Fattah Anggit",
+	})
+}
+
+func getCoffeeHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"name":   "Ethiopian Yirgacheffe Cheffe",
+		"origin": "Ethiopia",
+	})
+}
+
+type Coffee struct {
+	ID     int    `json:"id"`
+	Name   string `json:"name"`
+	Origin string `json:"origin"`
+}
+
+func createCoffeeHandler(c *gin.Context) {
+	var coffee Coffee
+	err := c.ShouldBindJSON(&coffee)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Coffee Successfully Created",
+		"name":    coffee.Name,
+		"origin":  coffee.Origin,
+	})
 }
