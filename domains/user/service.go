@@ -1,5 +1,6 @@
 package user
 
+// Init Service
 type ServiceUser interface {
 	GetAllUser() ([]User, error)
 	GetUserByID(id int) (User, error)
@@ -8,14 +9,17 @@ type ServiceUser interface {
 	DeleteUser(id int) (User, error)
 }
 
+// Init struct
 type serviceUser struct {
 	repositoryUser RepositoryUser
 }
 
+// Implement struct value
 func NewUserService(repositoryUser RepositoryUser) *serviceUser {
 	return &serviceUser{repositoryUser}
 }
 
+// Method from serviceUser struct that implement ServiceUser interface
 func (s *serviceUser) GetAllUser() ([]User, error) {
 	users, err := s.repositoryUser.FindAll()
 	if err != nil {
@@ -35,12 +39,16 @@ func (s *serviceUser) GetUserByID(id int) (User, error) {
 }
 
 func (s *serviceUser) CreateUser(user User) (User, error) {
-	user, err := s.repositoryUser.CreateUser(user)
+	newUser, err := s.repositoryUser.CreateUser(User{
+		Name:     user.Name,
+		Email:    user.Email,
+		Password: user.Password,
+	})
 	if err != nil {
-		return user, err
+		return newUser, err
 	}
 
-	return user, nil
+	return newUser, nil
 }
 
 func (s *serviceUser) UpdateUser(user User) (User, error) {

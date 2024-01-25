@@ -1,21 +1,25 @@
-package main
+package routes
 
 import (
 	"github.com/gin-gonic/gin"
 	userHandler "go-gin-api/app/handlers/user"
 	"go-gin-api/domains/user"
+
 	"go-gin-api/infrastructure"
 )
 
-func main() {
-	//Open Database Connection
+func SetupRoutes() {
 	db := infrastructure.ConnectToDatabase()
+	//defer db.DB().
 
-	userRepository := user.NewUserRepository(db)
-	userService := user.NewUserService(userRepository)
+	userRepo := user.NewUserRepository(db)
+	userService := user.NewUserService(userRepo)
 	handlerUser := userHandler.NewHandlerUser(userService)
 
-	//Initialize Gin Router
+	//jobRepo := job.NewRepositoryJob(db)
+	//jobService := job.NewServiceJob(jobRepo)
+	//job.NewHandlerJob(e, jobService)
+
 	router := gin.Default()
 
 	u := router.Group("/user")
@@ -25,9 +29,11 @@ func main() {
 	u.PUT("/:id", handlerUser.UpdateUserHandler)
 	u.DELETE("/:id", handlerUser.DeleteUserHandler)
 
-	err := router.Run(":8080")
-	if err != nil {
-		panic(err)
-	}
+	//j := router.Group("/job")
+	//j.GET("/", handlerJob.GetAllJobHandler)
+	//j.GET("/:id", handlerJob.GetJobByIDHandler)
+	//j.POST("/", handlerJob.CreateJobHandler)
+	//j.PUT("/:id", handlerJob.UpdateJobHandler)
+	//j.DELETE("/:id", handlerJob.DeleteJobHandler)
 
 }
