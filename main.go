@@ -26,10 +26,9 @@ func main() {
 	fmt.Println("Database Connected")
 
 	userRepository := user.NewUserRepository(db)
-	users, err := userRepository.FindAll()
-	if err != nil {
-		panic(err)
-	}
+	userService := user.NewUserService(userRepository)
+
+	users, err := userService.GetAllUser()
 
 	fmt.Println(users)
 
