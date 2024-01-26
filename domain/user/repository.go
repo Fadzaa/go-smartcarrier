@@ -2,7 +2,7 @@ package user
 
 import "gorm.io/gorm"
 
-//Initialize interface
+//Initialize api
 
 type UserRepository interface {
 	FindAll() ([]User, error)
@@ -23,7 +23,7 @@ func NewUserRepository(db *gorm.DB) *UserRepositoryImpl {
 	return &UserRepositoryImpl{db}
 }
 
-//Method from userRepository struct that implement UserRepository interface
+//Method from userRepository struct that implement UserRepository api
 
 func (r *UserRepositoryImpl) FindAll() ([]User, error) {
 	var users []User

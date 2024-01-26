@@ -2,6 +2,7 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
+	"go-gin-api/domain/user"
 	"net/http"
 	"strconv"
 )
@@ -15,10 +16,10 @@ type UserHandler interface {
 }
 
 type UserHandlerImpl struct {
-	serviceUser UserService
+	serviceUser user.UserService
 }
 
-func NewHandlerUser(serviceUser UserService) *UserHandlerImpl {
+func NewHandlerUser(serviceUser user.UserService) *UserHandlerImpl {
 	return &UserHandlerImpl{serviceUser}
 }
 
@@ -61,7 +62,7 @@ func (h *UserHandlerImpl) GetUserByIDHandler(c *gin.Context) {
 }
 
 func (h *UserHandlerImpl) CreateUserHandler(c *gin.Context) {
-	var user User
+	var user user.User
 	err := c.ShouldBindJSON(&user)
 
 	if err != nil {
@@ -80,7 +81,7 @@ func (h *UserHandlerImpl) CreateUserHandler(c *gin.Context) {
 }
 
 func (h *UserHandlerImpl) UpdateUserHandler(c *gin.Context) {
-	var user User
+	var user user.User
 	err := c.ShouldBindJSON(&user)
 
 	if err != nil {

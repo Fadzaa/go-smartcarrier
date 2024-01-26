@@ -1,6 +1,7 @@
 package user
 
 // Init Service
+
 type UserService interface {
 	GetAllUser() ([]User, error)
 	GetUserByID(id int) (User, error)
@@ -10,16 +11,19 @@ type UserService interface {
 }
 
 // Init struct
+
 type UserServiceImpl struct {
 	repositoryUser UserRepository
 }
 
 // Implement struct value
+
 func NewUserService(repositoryUser UserRepository) *UserServiceImpl {
 	return &UserServiceImpl{repositoryUser}
 }
 
-// Method from UserServiceImpl struct that implement UserService interface
+// Method from UserServiceImpl struct that implement UserService api
+
 func (s *UserServiceImpl) GetAllUser() ([]User, error) {
 	users, err := s.repositoryUser.FindAll()
 	if err != nil {

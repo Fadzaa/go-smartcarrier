@@ -6,8 +6,9 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
-	"go-gin-api/app"
-	"go-gin-api/domains/user"
+	user2 "go-gin-api/api/user"
+	"go-gin-api/domain/user"
+	"go-gin-api/infrastructure"
 )
 
 var userSet = wire.NewSet(
@@ -15,15 +16,15 @@ var userSet = wire.NewSet(
 	wire.Bind(new(user.UserRepository), new(*user.UserRepositoryImpl)),
 	user.NewUserService,
 	wire.Bind(new(user.UserService), new(*user.UserServiceImpl)),
-	user.NewHandlerUser,
-	wire.Bind(new(user.UserHandler), new(*user.UserHandlerImpl)),
+	user2.NewHandlerUser,
+	wire.Bind(new(user2.UserHandler), new(*user2.UserHandlerImpl)),
 )
 
-func InitializedUser() *gin.Engine {
+func InitializedApp() *gin.Engine {
 	wire.Build(
-		app.ConnectToDatabase,
+		infrastructure.ConnectToDatabase,
 		userSet,
-		app.SetupRoutes,
+		infrastructure.SetupRoutes,
 	)
 	return nil
 }
