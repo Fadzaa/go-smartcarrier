@@ -9,22 +9,22 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
-	"go-gin-api/domain/user"
+	auth2 "go-gin-api/api/auth"
+	"go-gin-api/domain/auth"
 	"go-gin-api/infrastructure"
-	user2 "go-gin-api/api/user"
 )
 
 // Injectors from injector.go:
 
 func InitializedApp() *gin.Engine {
 	db := infrastructure.ConnectToDatabase()
-	userRepositoryImpl := user.NewUserRepository(db)
-	userServiceImpl := user.NewUserService(userRepositoryImpl)
-	userHandlerImpl := user2.NewHandlerUser(userServiceImpl)
+	userRepositoryImpl := auth.NewUserRepository(db)
+	userServiceImpl := auth.NewAuthService(userRepositoryImpl)
+	userHandlerImpl := auth2.NewHandlerAuth(userServiceImpl)
 	engine := infrastructure.SetupRoutes(userHandlerImpl)
 	return engine
 }
 
 // injector.go:
 
-var userSet = wire.NewSet(user.NewUserRepository, wire.Bind(new(user.UserRepository), new(*user.UserRepositoryImpl)), user.NewUserService, wire.Bind(new(user.UserService), new(*user.UserServiceImpl)), user2.NewHandlerUser, wire.Bind(new(user2.UserHandler), new(*user2.UserHandlerImpl)))
+var userSet = wire.NewSet(auth.NewUserRepository, wire.Bind(new(auth.Repository), new(*auth.RepositoryImpl)), auth.NewAuthService, wire.Bind(new(auth.Service), new(*auth.ServiceImpl)), auth2.NewHandlerAuth, wire.Bind(new(auth2.Handler), new(*auth2.HandlerImpl)))

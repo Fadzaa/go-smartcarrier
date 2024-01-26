@@ -2,7 +2,7 @@ package infrastructure
 
 import (
 	"fmt"
-	"go-gin-api/domain/user"
+	"go-gin-api/domain/auth"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -14,7 +14,7 @@ func ConnectToDatabase() *gorm.DB {
 		panic(err)
 	}
 
-	err = db.AutoMigrate(&user.User{})
+	err = db.AutoMigrate(&auth.User{})
 	if err != nil {
 		panic(err)
 	}
