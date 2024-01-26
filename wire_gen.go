@@ -10,7 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 	auth2 "go-gin-api/api/auth"
+	job2 "go-gin-api/api/job"
 	"go-gin-api/domain/auth"
+	"go-gin-api/domain/job"
 	"go-gin-api/infrastructure"
 )
 
@@ -18,13 +20,18 @@ import (
 
 func InitializedApp() *gin.Engine {
 	db := infrastructure.ConnectToDatabase()
-	userRepositoryImpl := auth.NewUserRepository(db)
-	userServiceImpl := auth.NewAuthService(userRepositoryImpl)
-	userHandlerImpl := auth2.NewHandlerAuth(userServiceImpl)
-	engine := infrastructure.SetupRoutes(userHandlerImpl)
+	repositoryImpl := auth.NewUserRepository(db)
+	serviceImpl := auth.NewAuthService(repositoryImpl)
+	handlerImpl := auth2.NewHandlerAuth(serviceImpl)
+	jobRepositoryImpl := job.NewJobRepository(db)
+	jobServiceImpl := job.NewJobService(jobRepositoryImpl)
+	jobHandlerImpl := job2.NewHandler(jobServiceImpl)
+	engine := infrastructure.SetupRoutes(handlerImpl, jobHandlerImpl)
 	return engine
 }
 
 // injector.go:
 
 var userSet = wire.NewSet(auth.NewUserRepository, wire.Bind(new(auth.Repository), new(*auth.RepositoryImpl)), auth.NewAuthService, wire.Bind(new(auth.Service), new(*auth.ServiceImpl)), auth2.NewHandlerAuth, wire.Bind(new(auth2.Handler), new(*auth2.HandlerImpl)))
+
+var jobSet = wire.NewSet(job.NewJobRepository, wire.Bind(new(job.Repository), new(*job.RepositoryImpl)), job.NewJobService, wire.Bind(new(job.Service), new(*job.ServiceImpl)), job2.NewHandler, wire.Bind(new(job2.Handler), new(*job2.HandlerImpl)))

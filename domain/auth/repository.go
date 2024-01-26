@@ -2,7 +2,7 @@ package auth
 
 import "gorm.io/gorm"
 
-//Initialize api
+//Initialize interface
 
 type Repository interface {
 	RegisterUser(user User) (User, error)
