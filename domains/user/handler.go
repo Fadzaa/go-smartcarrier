@@ -2,12 +2,11 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-gin-api/domains/user"
 	"net/http"
 	"strconv"
 )
 
-type HandlerUser interface {
+type UserHandler interface {
 	GetAllUserHandler(c *gin.Context)
 	GetUserByIDHandler(c *gin.Context)
 	CreateUserHandler(c *gin.Context)
@@ -15,12 +14,12 @@ type HandlerUser interface {
 	DeleteUserHandler(c *gin.Context)
 }
 
-type handlerUser struct {
-	serviceUser user.ServiceUser
+type UserHandlerImpl struct {
+	serviceUser UserService
 }
 
-func NewHandlerUser(serviceUser user.ServiceUser) *handlerUser {
-	return &handlerUser{serviceUser}
+func NewHandlerUser(serviceUser UserService) *UserHandlerImpl {
+	return &UserHandlerImpl{serviceUser}
 }
 
 func RootHandler(c *gin.Context) {
@@ -29,7 +28,7 @@ func RootHandler(c *gin.Context) {
 	})
 }
 
-func (h *handlerUser) GetAllUserHandler(c *gin.Context) {
+func (h *UserHandlerImpl) GetAllUserHandler(c *gin.Context) {
 	users, err := h.serviceUser.GetAllUser()
 	if err != nil {
 		c.JSON(500, gin.H{
@@ -44,7 +43,7 @@ func (h *handlerUser) GetAllUserHandler(c *gin.Context) {
 
 }
 
-func (h *handlerUser) GetUserByIDHandler(c *gin.Context) {
+func (h *UserHandlerImpl) GetUserByIDHandler(c *gin.Context) {
 	id := c.Param("id")
 	idInt, _ := strconv.Atoi(id)
 
@@ -61,8 +60,8 @@ func (h *handlerUser) GetUserByIDHandler(c *gin.Context) {
 	})
 }
 
-func (h *handlerUser) CreateUserHandler(c *gin.Context) {
-	var user user.User
+func (h *UserHandlerImpl) CreateUserHandler(c *gin.Context) {
+	var user User
 	err := c.ShouldBindJSON(&user)
 
 	if err != nil {
@@ -80,8 +79,8 @@ func (h *handlerUser) CreateUserHandler(c *gin.Context) {
 	})
 }
 
-func (h *handlerUser) UpdateUserHandler(c *gin.Context) {
-	var user user.User
+func (h *UserHandlerImpl) UpdateUserHandler(c *gin.Context) {
+	var user User
 	err := c.ShouldBindJSON(&user)
 
 	if err != nil {
@@ -99,7 +98,7 @@ func (h *handlerUser) UpdateUserHandler(c *gin.Context) {
 	})
 }
 
-func (h *handlerUser) DeleteUserHandler(c *gin.Context) {
+func (h *UserHandlerImpl) DeleteUserHandler(c *gin.Context) {
 	id := c.Param("id")
 	idInt, _ := strconv.Atoi(id)
 

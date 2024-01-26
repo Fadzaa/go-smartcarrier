@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 //Initialize interface
 
-type RepositoryUser interface {
+type UserRepository interface {
 	FindAll() ([]User, error)
 	FindUserByID(id int) (User, error)
 	CreateUser(user User) (User, error)
@@ -13,19 +13,19 @@ type RepositoryUser interface {
 }
 
 // Initialize struct
-type repositoryUser struct {
+type UserRepositoryImpl struct {
 	db *gorm.DB
 }
 
 // Implement struct value
 
-func NewUserRepository(db *gorm.DB) *repositoryUser {
-	return &repositoryUser{db}
+func NewUserRepository(db *gorm.DB) *UserRepositoryImpl {
+	return &UserRepositoryImpl{db}
 }
 
 //Method from userRepository struct that implement UserRepository interface
 
-func (r *repositoryUser) FindAll() ([]User, error) {
+func (r *UserRepositoryImpl) FindAll() ([]User, error) {
 	var users []User
 	//SELECT * FROM users
 	err := r.db.Find(&users).Error
@@ -36,7 +36,7 @@ func (r *repositoryUser) FindAll() ([]User, error) {
 	return users, nil
 }
 
-func (r *repositoryUser) FindUserByID(id int) (User, error) {
+func (r *UserRepositoryImpl) FindUserByID(id int) (User, error) {
 	var user User
 	//SELECT * FROM users WHERE id = ?
 	err := r.db.First(&user, id).Error
@@ -47,7 +47,7 @@ func (r *repositoryUser) FindUserByID(id int) (User, error) {
 	return user, nil
 }
 
-func (r *repositoryUser) CreateUser(user User) (User, error) {
+func (r *UserRepositoryImpl) CreateUser(user User) (User, error) {
 
 	//INSERT INTO users (name, email, occupation) VALUES (?, ?, ?)
 	err := r.db.Create(&user).Error
@@ -58,7 +58,7 @@ func (r *repositoryUser) CreateUser(user User) (User, error) {
 	return user, nil
 }
 
-func (r *repositoryUser) UpdateUser(user User) (User, error) {
+func (r *UserRepositoryImpl) UpdateUser(user User) (User, error) {
 	//UPDATE users SET name=?, email=?, occupation=? WHERE id=?
 	err := r.db.Save(&user).Error
 	if err != nil {
@@ -68,7 +68,7 @@ func (r *repositoryUser) UpdateUser(user User) (User, error) {
 	return user, nil
 }
 
-func (r *repositoryUser) DeleteUser(id int) (User, error) {
+func (r *UserRepositoryImpl) DeleteUser(id int) (User, error) {
 	var user User
 	//DELETE FROM users WHERE id=?
 	err := r.db.Delete(&user, id).Error

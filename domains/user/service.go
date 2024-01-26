@@ -1,7 +1,7 @@
 package user
 
 // Init Service
-type ServiceUser interface {
+type UserService interface {
 	GetAllUser() ([]User, error)
 	GetUserByID(id int) (User, error)
 	CreateUser(user User) (User, error)
@@ -10,17 +10,17 @@ type ServiceUser interface {
 }
 
 // Init struct
-type serviceUser struct {
-	repositoryUser RepositoryUser
+type UserServiceImpl struct {
+	repositoryUser UserRepository
 }
 
 // Implement struct value
-func NewUserService(repositoryUser RepositoryUser) *serviceUser {
-	return &serviceUser{repositoryUser}
+func NewUserService(repositoryUser UserRepository) *UserServiceImpl {
+	return &UserServiceImpl{repositoryUser}
 }
 
-// Method from serviceUser struct that implement ServiceUser interface
-func (s *serviceUser) GetAllUser() ([]User, error) {
+// Method from UserServiceImpl struct that implement UserService interface
+func (s *UserServiceImpl) GetAllUser() ([]User, error) {
 	users, err := s.repositoryUser.FindAll()
 	if err != nil {
 		return users, err
@@ -29,7 +29,7 @@ func (s *serviceUser) GetAllUser() ([]User, error) {
 	return users, nil
 }
 
-func (s *serviceUser) GetUserByID(id int) (User, error) {
+func (s *UserServiceImpl) GetUserByID(id int) (User, error) {
 	user, err := s.repositoryUser.FindUserByID(id)
 	if err != nil {
 		return user, err
@@ -38,7 +38,7 @@ func (s *serviceUser) GetUserByID(id int) (User, error) {
 	return user, nil
 }
 
-func (s *serviceUser) CreateUser(user User) (User, error) {
+func (s *UserServiceImpl) CreateUser(user User) (User, error) {
 	newUser, err := s.repositoryUser.CreateUser(User{
 		Name:     user.Name,
 		Email:    user.Email,
@@ -51,7 +51,7 @@ func (s *serviceUser) CreateUser(user User) (User, error) {
 	return newUser, nil
 }
 
-func (s *serviceUser) UpdateUser(user User) (User, error) {
+func (s *UserServiceImpl) UpdateUser(user User) (User, error) {
 	user, err := s.repositoryUser.UpdateUser(user)
 	if err != nil {
 		return user, err
@@ -60,7 +60,7 @@ func (s *serviceUser) UpdateUser(user User) (User, error) {
 	return user, nil
 }
 
-func (s *serviceUser) DeleteUser(id int) (User, error) {
+func (s *UserServiceImpl) DeleteUser(id int) (User, error) {
 	user, err := s.repositoryUser.DeleteUser(id)
 	if err != nil {
 		return user, err
