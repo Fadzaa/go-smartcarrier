@@ -18,7 +18,7 @@ type HandlerImpl struct {
 	serviceUser auth.Service
 }
 
-func NewHandlerAuth(serviceUser auth.Service) *HandlerImpl {
+func NewAuthHandler(serviceUser auth.Service) *HandlerImpl {
 	return &HandlerImpl{serviceUser}
 }
 

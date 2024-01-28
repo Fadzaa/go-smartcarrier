@@ -19,7 +19,7 @@ type HandlerImpl struct {
 	serviceJob job.Service
 }
 
-func NewHandler(serviceJob job.Service) *HandlerImpl {
+func NewJobHandler(serviceJob job.Service) *HandlerImpl {
 	return &HandlerImpl{serviceJob}
 }
 
@@ -118,6 +118,6 @@ func (h *HandlerImpl) DeleteJob(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Job Successfully Deleted",
+		"message": "Course Successfully Job",
 	})
 }
