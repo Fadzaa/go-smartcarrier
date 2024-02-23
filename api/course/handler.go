@@ -33,9 +33,11 @@ func (h *HandlerImpl) GetAllCourse(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"data": courses,
-	})
+	//c.JSON(http.StatusOK, gin.H{
+	//	"data": courses,
+	//})
+
+	c.JSON(http.StatusOK, courses)
 }
 
 func (h *HandlerImpl) GetCourseByID(c *gin.Context) {
