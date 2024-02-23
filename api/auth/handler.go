@@ -2,11 +2,9 @@ package auth
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
 	"go-gin-api/domain/auth"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
-	"time"
 )
 
 type Handler interface {
@@ -90,12 +88,12 @@ func (h *HandlerImpl) LoginUserHandler(c *gin.Context) {
 		return
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": user.ID,
-		"exp": time.Now().Add(time.Hour).Unix(),
-	})
+	//token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+	//	"sub": user.ID,
+	//	"exp": time.Now().Add(time.Hour).Unix(),
+	//})
 
-	tokenString, err := token.SignedString([]byte("secretjfkladsjflksjaflaejfiejf"))
+	//tokenString, err := token.SignedString([]byte("secretjfkladsjflksjaflaejfiejf"))
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -109,9 +107,11 @@ func (h *HandlerImpl) LoginUserHandler(c *gin.Context) {
 	//c.SetCookie("Authorization", tokenString, 3600, "/", "localhost", false, true)
 
 	//if i want to set token in header
-	c.JSON(200, gin.H{
-		"message": "User Successfully Login",
-		"data":    userLogin,
-		"token":   tokenString,
-	})
+	//c.JSON(200, gin.H{
+	//	"message": "User Successfully Login",
+	//	"data":    userLogin,
+	//	"token":   tokenString,
+	//})
+
+	c.JSON(200, userLogin)
 }
