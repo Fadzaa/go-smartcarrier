@@ -6,6 +6,6 @@ func LoadEnv() {
 
 	err := godotenv.Load()
 	if err != nil {
-		panic(err)
+		//panic(err) deploy purpose
 	}
 }
