@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Repository interface {
 	FindAll() ([]Job, error)
 	FindJobByID(id int) (Job, error)
-	CreateJob(job JobBind) (Job, error)
+	CreateJob(job JobBind) (JobBind, error)
 	UpdateJob(job Job) (Job, error)
 	DeleteJob(id int) (Job, error)
 }
