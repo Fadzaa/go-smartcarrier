@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Repository interface {
 	FindAll() ([]Job, error)
 	FindJobByID(id int) (Job, error)
-	CreateJob(job Job) (Job, error)
+	CreateJob(job JobBind) (Job, error)
 	UpdateJob(job Job) (Job, error)
 	DeleteJob(id int) (Job, error)
 }
@@ -38,7 +38,7 @@ func (r *RepositoryImpl) FindJobByID(id int) (Job, error) {
 	return job, nil
 }
 
-func (r *RepositoryImpl) CreateJob(job Job) (Job, error) {
+func (r *RepositoryImpl) CreateJob(job JobBind) (JobBind, error) {
 
 	err := r.db.Create(&job).Error
 	if err != nil {

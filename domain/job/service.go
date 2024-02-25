@@ -3,7 +3,7 @@ package job
 type Service interface {
 	GetAllJob() ([]Job, error)
 	GetJobByID(id int) (Job, error)
-	CreateJob(job Job) (Job, error)
+	CreateJob(job JobBind) (Job, error)
 	UpdateJob(job Job) (Job, error)
 	DeleteJob(id int) (Job, error)
 }
@@ -34,7 +34,7 @@ func (s *ServiceImpl) GetJobByID(id int) (Job, error) {
 	return job, nil
 }
 
-func (s *ServiceImpl) CreateJob(job Job) (Job, error) {
+func (s *ServiceImpl) CreateJob(job JobBind) (Job, error) {
 	newJob, err := s.repositoryJob.CreateJob(job)
 	if err != nil {
 		return newJob, err

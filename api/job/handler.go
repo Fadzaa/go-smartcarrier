@@ -56,7 +56,7 @@ func (h *HandlerImpl) GetJobByID(c *gin.Context) {
 }
 
 func (h *HandlerImpl) CreateJob(c *gin.Context) {
-	var jobBind job.Job
+	var jobBind job.JobBind
 	err := c.ShouldBindJSON(&jobBind)
 
 	if err != nil {

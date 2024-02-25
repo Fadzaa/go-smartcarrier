@@ -13,3 +13,9 @@ type Job struct {
 	CreatedAt    time.Time `json:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at"`
 }
+
+type JobBind struct {
+	//gorm.Model
+	CompanyName string `json:"company_name" gorm:"type:varchar(255)"`
+	Jobdesk     string `json:"jobdesk" gorm:"type:varchar(100)"`
+}
