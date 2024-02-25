@@ -35,9 +35,7 @@ func (s *ServiceImpl) GetJobByID(id int) (Job, error) {
 }
 
 func (s *ServiceImpl) CreateJob(job Job) (Job, error) {
-	newJob, err := s.repositoryJob.CreateJob(Job{
-		Jobdesk: job.Jobdesk,
-	})
+	newJob, err := s.repositoryJob.CreateJob(job)
 	if err != nil {
 		return newJob, err
 	}
